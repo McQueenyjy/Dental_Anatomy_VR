@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6726482094925258837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1218834507865221218}
+  - component: {fileID: 7970222640763758541}
+  - component: {fileID: 4794181031578186356}
+  m_Layer: 0
+  m_Name: StudyModeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1218834507865221218
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6726482094925258837}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.22049247, y: 1.9262764, z: 1.2490714}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7970222640763758541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6726482094925258837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec4563fc618e5674a952803269747639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentToothRoot: {fileID: 0}
+  teeth:
+  - toothId: UR6
+    viewerPrefab: {fileID: 4914032092275200630, guid: d138086ed94eb6949a6a8624c5cab2a9,
+      type: 3}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 1, y: 1, z: 1}
+  - toothId: UR7
+    viewerPrefab: {fileID: 4914032092275200630, guid: 13d4821b6076e0a4981c3354aa89a204,
+      type: 3}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 1, y: 1, z: 1}
+  - toothId: 
+    viewerPrefab: {fileID: 0}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 0, y: 0, z: 0}
+  - toothId: 
+    viewerPrefab: {fileID: 0}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 0, y: 0, z: 0}
+  - toothId: 
+    viewerPrefab: {fileID: 0}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 0, y: 0, z: 0}
+  - toothId: 
+    viewerPrefab: {fileID: 0}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 0, y: 0, z: 0}
+  - toothId: 
+    viewerPrefab: {fileID: 0}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 0, y: 0, z: 0}
+  - toothId: 
+    viewerPrefab: {fileID: 0}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 0, y: 0, z: 0}
+  - toothId: 
+    viewerPrefab: {fileID: 0}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 0, y: 0, z: 0}
+  - toothId: 
+    viewerPrefab: {fileID: 0}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 0, y: 0, z: 0}
+  - toothId: 
+    viewerPrefab: {fileID: 0}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 0, y: 0, z: 0}
+  - toothId: 
+    viewerPrefab: {fileID: 0}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 0, y: 0, z: 0}
+  - toothId: 
+    viewerPrefab: {fileID: 0}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 0, y: 0, z: 0}
+  - toothId: 
+    viewerPrefab: {fileID: 0}
+    localPosition: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    localScale: {x: 0, y: 0, z: 0}
+  spawnFirstOnStart: 0
+--- !u!114 &4794181031578186356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6726482094925258837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1dca96dd3c86b74ba3e2091860cdb81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showInfoAction: {fileID: -3599823989380923159, guid: 0be0028c24f2a4c14a96b6aa39055933,
+    type: 3}
+  infoPanel: {fileID: 0}
+  showPits: 1
+  showCusps: 1
+  showRidges: 1
+  showFossae: 1
+  showGrooves: 1
