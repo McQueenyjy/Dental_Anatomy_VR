@@ -4,6 +4,9 @@ Shader "Dental/Anatomy Overlay"
     {
         [MainColor] _BaseColor("Region Color", Color) = (0, 0.65, 0.65, 1)
         _SurfaceOffset("Surface Offset", Float) = 0.012
+        [HideInInspector] _SrcBlend("Source Blend", Float) = 1
+        [HideInInspector] _DstBlend("Destination Blend", Float) = 0
+        [HideInInspector] _ZWrite("Depth Write", Float) = 1
     }
     SubShader
     {
@@ -12,7 +15,8 @@ Shader "Dental/Anatomy Overlay"
         {
             Tags { "LightMode"="UniversalForwardOnly" }
             Cull Back
-            ZWrite On
+            Blend [_SrcBlend] [_DstBlend]
+            ZWrite [_ZWrite]
             ZTest LEqual
             Offset -1, -1
             HLSLPROGRAM
@@ -51,7 +55,7 @@ Shader "Dental/Anatomy Overlay"
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
                 Light mainLight = GetMainLight();
                 half diffuse = saturate(dot(normalize(input.normalWS), mainLight.direction));
-                return half4(_BaseColor.rgb * (0.55h + 0.45h * diffuse), 1);
+                return half4(_BaseColor.rgb * (0.55h + 0.45h * diffuse), _BaseColor.a);
             }
             ENDHLSL
         }

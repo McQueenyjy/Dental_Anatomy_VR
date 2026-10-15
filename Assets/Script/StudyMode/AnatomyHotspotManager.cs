@@ -16,7 +16,12 @@ public class AnatomyHotspotManager : MonoBehaviour
     public bool showFossae = true;
     public bool showGrooves = true;
 
+    [Header("Hover Transparency")]
+    [Tooltip("Opacity of other visible anatomy regions while one region is highlighted. 0 is invisible; 1 is opaque.")]
+    [Range(0.05f, 1f)] public float unselectedOpacity = 0.2f;
+
     private readonly List<AnatomyRegion> hoveredRegions = new List<AnatomyRegion>();
+    private AnatomyRegion currentRegion;
 
     private void Awake() => FindInfoPanel();
 
@@ -111,6 +116,9 @@ public class AnatomyHotspotManager : MonoBehaviour
     {
         hoveredRegions.RemoveAll(region => region == null || !region.isActiveAndEnabled ||
             !region.FilterEnabled || !region.IsHovered);
+        currentRegion = hoveredRegions.Count == 0 ? null : hoveredRegions[hoveredRegions.Count - 1];
+        foreach (AnatomyRegion region in FindObjectsOfType<AnatomyRegion>(true))
+            if (region.gameObject.scene == gameObject.scene) ApplyRegionPresentation(region);
         if (infoPanel == null) return;
         if (hoveredRegions.Count == 0)
         {
@@ -119,6 +127,11 @@ public class AnatomyHotspotManager : MonoBehaviour
         }
         AnatomyRegion current = hoveredRegions[hoveredRegions.Count - 1];
         infoPanel.ShowInfo(current.structureName, current.description);
+    }
+
+    internal void ApplyRegionPresentation(AnatomyRegion region)
+    {
+        region.SetFocusPresentation(isActiveAndEnabled ? currentRegion : null, unselectedOpacity);
     }
 
     private void OnShowInfoPressed(InputAction.CallbackContext context) => RefreshInfo();

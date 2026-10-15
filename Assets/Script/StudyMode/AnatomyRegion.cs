@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 // Shared presentation for a single hotspot and a region with multiple hit areas.
 public abstract class AnatomyRegion : MonoBehaviour
@@ -15,9 +16,21 @@ public abstract class AnatomyRegion : MonoBehaviour
 
     private readonly HashSet<Object> hoverSources = new HashSet<Object>();
     private readonly Dictionary<Collider, bool> originalColliders = new Dictionary<Collider, bool>();
-    private readonly List<Renderer> highlightRenderers = new List<Renderer>();
+    private enum Presentation { Normal, Focused, Transparent }
+
+    private sealed class HighlightVisual
+    {
+        public Renderer renderer;
+        public Material[] original, focused, transparent;
+        public Presentation presentation;
+    }
+
+    private readonly List<HighlightVisual> highlightRenderers = new List<HighlightVisual>();
+    private readonly List<Material> runtimeMaterials = new List<Material>();
     private MaterialPropertyBlock properties;
     private bool initialized;
+    private Presentation presentation;
+    private float backgroundOpacity = 1f;
 
     protected abstract IEnumerable<GameObject> GetHighlights();
     protected abstract IEnumerable<Collider> GetHitColliders();
@@ -29,12 +42,25 @@ public abstract class AnatomyRegion : MonoBehaviour
         Initialize();
         AnatomyHotspotManager manager = GetManager();
         SetInteractableByFilter(manager == null || manager.IsTypeEnabled(structureType));
+        manager?.ApplyRegionPresentation(this);
     }
 
     protected virtual void OnDisable()
     {
         ClearHover();
+        SetFocusPresentation(null, 1f);
         UpdateVisuals(false);
+    }
+
+    protected virtual void OnDestroy()
+    {
+        foreach (HighlightVisual visual in highlightRenderers)
+            if (visual.renderer != null) visual.renderer.sharedMaterials = visual.original;
+        foreach (Material material in runtimeMaterials)
+        {
+            if (Application.isPlaying) Destroy(material);
+            else DestroyImmediate(material);
+        }
     }
 
     private void Initialize()
@@ -54,7 +80,9 @@ public abstract class AnatomyRegion : MonoBehaviour
             if (highlight != gameObject && !transform.IsChildOf(highlight.transform))
                 highlight.SetActive(true);
             foreach (Renderer visual in highlight.GetComponentsInChildren<Renderer>(true))
-                if (!highlightRenderers.Contains(visual)) highlightRenderers.Add(visual);
+                if (!highlightRenderers.Exists(item => item.renderer == visual))
+                    highlightRenderers.Add(new HighlightVisual
+                        { renderer = visual, original = visual.sharedMaterials });
         }
     }
 
@@ -98,13 +126,71 @@ public abstract class AnatomyRegion : MonoBehaviour
         return null;
     }
 
+    internal void SetFocusPresentation(AnatomyRegion focused, float unselectedOpacity)
+    {
+        Presentation next = focused == null ? Presentation.Normal :
+            focused == this ? Presentation.Focused : Presentation.Transparent;
+        float opacity = Mathf.Clamp01(unselectedOpacity);
+        if (presentation == next && Mathf.Approximately(backgroundOpacity, opacity)) return;
+        Initialize();
+        presentation = next;
+        backgroundOpacity = opacity;
+        UpdateVisuals(FilterEnabled && isActiveAndEnabled);
+    }
+
+    private Material[] CreatePresentationMaterials(Material[] originals, bool transparent)
+    {
+        var materials = new Material[originals.Length];
+        for (int i = 0; i < materials.Length; i++)
+        {
+            if (originals[i] == null) continue;
+            var material = new Material(originals[i])
+            {
+                name = originals[i].name + (transparent ? " (Context)" : " (Focused)"),
+                hideFlags = HideFlags.DontSave,
+                // Draw the focused patch after context, so overlapping patches cannot tint it.
+                renderQueue = (int)RenderQueue.Transparent + (transparent ? 0 : 100)
+            };
+            material.SetOverrideTag("RenderType", "Transparent");
+            material.SetFloat("_SrcBlend", (float)(transparent ? BlendMode.SrcAlpha : BlendMode.One));
+            material.SetFloat("_DstBlend", (float)(transparent ? BlendMode.OneMinusSrcAlpha : BlendMode.Zero));
+            material.SetFloat("_ZWrite", 0f);
+            materials[i] = material;
+            runtimeMaterials.Add(material);
+        }
+        return materials;
+    }
+
+    private void ApplyMaterials(HighlightVisual visual)
+    {
+        if (visual.presentation == presentation) return;
+        switch (presentation)
+        {
+            case Presentation.Focused:
+                if (visual.focused == null) visual.focused = CreatePresentationMaterials(visual.original, false);
+                visual.renderer.sharedMaterials = visual.focused;
+                break;
+            case Presentation.Transparent:
+                if (visual.transparent == null) visual.transparent = CreatePresentationMaterials(visual.original, true);
+                visual.renderer.sharedMaterials = visual.transparent;
+                break;
+            default:
+                visual.renderer.sharedMaterials = visual.original;
+                break;
+        }
+        visual.presentation = presentation;
+    }
+
     private void UpdateVisuals(bool visible)
     {
         Color color = CategoryColor(structureType);
-        if (IsHovered) color = Color.Lerp(color, Color.white, 0.6f);
-        foreach (Renderer visual in highlightRenderers)
+        if (presentation == Presentation.Focused || (presentation == Presentation.Normal && IsHovered))
+            color = Color.Lerp(color, Color.white, 1f);
+        foreach (HighlightVisual highlight in highlightRenderers)
         {
+            Renderer visual = highlight.renderer;
             if (visual == null) continue;
+            ApplyMaterials(highlight);
             visual.enabled = visible;
             if (!visible) continue;
             visual.GetPropertyBlock(properties);
