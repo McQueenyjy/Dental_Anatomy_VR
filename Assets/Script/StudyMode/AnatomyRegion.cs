@@ -184,8 +184,7 @@ public abstract class AnatomyRegion : MonoBehaviour
     private void UpdateVisuals(bool visible)
     {
         Color color = CategoryColor(structureType);
-        if (presentation == Presentation.Focused || (presentation == Presentation.Normal && IsHovered))
-            color = Color.Lerp(color, Color.white, 1f);
+        color.a = presentation == Presentation.Transparent ? backgroundOpacity : 1f;
         foreach (HighlightVisual highlight in highlightRenderers)
         {
             Renderer visual = highlight.renderer;
