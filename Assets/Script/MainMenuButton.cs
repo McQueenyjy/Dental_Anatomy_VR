@@ -26,6 +26,11 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
     }
 
+    public void PlayStudyMode()
+    {
+        SceneManager.LoadScene("StudyMode_1");
+    }
+
     public void PlayEasy() { 
         GameSettings.difficulty = 0;
         SceneManager.LoadScene("SampleScene");

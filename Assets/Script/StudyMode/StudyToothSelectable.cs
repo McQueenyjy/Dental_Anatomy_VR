@@ -38,6 +38,8 @@ public class StudyToothSelectable : MonoBehaviour
 
     private void OnDisable()
     {
+        // Hiding the whole arch can happen before hoverExited is delivered.
+        SetOutline(false);
         if (interactable != null)
         {
             interactable.hoverEntered.RemoveListener(OnHoverEntered);
