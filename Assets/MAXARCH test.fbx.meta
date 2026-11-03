@@ -3,7 +3,42 @@ guid: f3e03c632039e2c41b19e9e2578e1aa8
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 4adca4ebec4977e46b3fbd54e601b29d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: enamel.001
+    second: {fileID: 2100000, guid: 2932c72668b0c0e4083b6ee6a44e4238, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: enamel.002
+    second: {fileID: 2100000, guid: ed081d542e7affe4183b35e42abb163c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: enamel.003
+    second: {fileID: 2100000, guid: 853d5dacadd9cdd44bbf583e8b0db128, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: enamel.006
+    second: {fileID: 2100000, guid: 07607c619907f6b47850910735652fb9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: enamel.008
+    second: {fileID: 2100000, guid: fa34cb998d88bae4998d4e50b6bc524a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: enamel.011
+    second: {fileID: 2100000, guid: 1ac454f9c6d0adf4190109a367f9ece6, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -28,7 +28,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayStudyMode()
     {
-        SceneManager.LoadScene("StudyMode_1");
+        SceneManager.LoadScene("StudyMode_AR");
     }
 
     public void PlayEasy() { 

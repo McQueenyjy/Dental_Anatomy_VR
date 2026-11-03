@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StudyModeManager : MonoBehaviour
 {
@@ -75,6 +76,11 @@ public class StudyModeManager : MonoBehaviour
     public void ReturnToToothSelection()
     {
         ClearCurrentTooth();
+    }
+
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void FitCurrentTooth()
