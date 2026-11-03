@@ -291,8 +291,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 24}
-  m_SizeDelta: {x: 470, y: 260}
+  m_AnchoredPosition: {x: -249, y: 87}
+  m_SizeDelta: {x: 470, y: 500}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &94034613
 MonoBehaviour:
@@ -465,8 +465,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 700}
+  m_AnchoredPosition: {x: 500, y: 0}
+  m_SizeDelta: {x: 1000, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &126362857
 MonoBehaviour:
@@ -725,7 +725,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -136}
+  m_AnchoredPosition: {x: 499, y: -58}
   m_SizeDelta: {x: 450, y: 230}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &159333318
@@ -748,15 +748,30 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Press "Grip" to select a tooth.
+  m_text: 'Largest crown in the maxillary arch. The crown is relatively short occlusocervically
+    but wide mesiodistally and buccolingually (BL slightly greater than MD).
 
+    
 
-    Select structure categories below
-    to show their colors. Point at a structure to view its name and description.
+    If
+    a Cusp of Carabelli (arrow) is present it is on the lingual of the ML cusp. This
+    cusp is the most common example of a tubercle, or elevation on a crown due to
+    an extra formation of enamel.
 
+    
 
-    Use
-    "Back to teeth" to choose another tooth.'
+    Contains a central pit within the
+    central fossa.
+
+    
+
+    The primary cusp triangle (trigon) is made up of
+    the ML, MB, and DB cusps. The DL cusp is not part of this cusp triangle.
+
+    
+
+    Cusp
+    size: ML>MB>DB>DL>Carabelli (same as 2nd molar)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -819,7 +834,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -18.540161, y: 0.00026126084, z: -24.946274, w: -508.16693}
+  m_margin: {x: -262.47638, y: -46.175728, z: 237.10228, w: -389.37012}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -5633,7 +5648,7 @@ Transform:
   m_GameObject: {fileID: 1837451793}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: 2.813}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6743,7 +6758,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -30}
+  m_AnchoredPosition: {x: -252, y: -11}
   m_SizeDelta: {x: 450, y: 88}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2088535545
@@ -6829,7 +6844,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -17.497345, y: 0, z: -23.599777, w: -64.1964}
+  m_margin: {x: -17.497345, y: -1.5459374, z: -23.599777, w: 27.564606}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -6987,7 +7002,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 80.4, y: 0}
+  m_AnchoredPosition: {x: -126, y: -272}
   m_SizeDelta: {x: 135, y: 46}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &6700000006
@@ -7315,7 +7330,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 80, y: -83}
+  m_AnchoredPosition: {x: -125, y: -371}
   m_SizeDelta: {x: 135, y: 46}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &6700000106
