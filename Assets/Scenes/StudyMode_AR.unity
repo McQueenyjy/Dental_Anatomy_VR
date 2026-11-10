@@ -751,27 +751,23 @@ MonoBehaviour:
   m_text: 'Largest crown in the maxillary arch. The crown is relatively short occlusocervically
     but wide mesiodistally and buccolingually (BL slightly greater than MD).
 
-    
 
     If
     a Cusp of Carabelli (arrow) is present it is on the lingual of the ML cusp. This
     cusp is the most common example of a tubercle, or elevation on a crown due to
     an extra formation of enamel.
 
-    
 
-    Contains a central pit within the
-    central fossa.
+    Contains a central pit within the central
+    fossa.
 
-    
 
-    The primary cusp triangle (trigon) is made up of
-    the ML, MB, and DB cusps. The DL cusp is not part of this cusp triangle.
+    The primary cusp triangle (trigon) is made up of the ML, MB, and
+    DB cusps. The DL cusp is not part of this cusp triangle.
 
-    
 
-    Cusp
-    size: ML>MB>DB>DL>Carabelli (same as 2nd molar)'
+    Cusp size: ML>MB>DB>DL>Carabelli
+    (same as 2nd molar)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
