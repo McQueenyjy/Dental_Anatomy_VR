@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2940105678243085164}
   - component: {fileID: 1500440670284759030}
   - component: {fileID: 4369424598840333875}
+  - component: {fileID: -5549311855555605501}
   m_Layer: 0
   m_Name: Maxillary_right_2nd_molar
   m_TagString: Untagged
@@ -177,15 +178,15 @@ MonoBehaviour:
   m_VelocityScale: 1
   m_AngularVelocityDamping: 1
   m_AngularVelocityScale: 1
-  m_TrackPosition: 1
+  m_TrackPosition: 0
   m_SmoothPosition: 0
   m_SmoothPositionAmount: 8
   m_TightenPosition: 0.1
-  m_TrackRotation: 1
+  m_TrackRotation: 0
   m_SmoothRotation: 0
   m_SmoothRotationAmount: 8
   m_TightenRotation: 0.1
-  m_TrackScale: 1
+  m_TrackScale: 0
   m_SmoothScale: 0
   m_SmoothScaleAmount: 8
   m_TightenScale: 0.1
@@ -235,6 +236,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.1230019, y: 2.0806801, z: 1}
   m_Center: {x: 0.061501026, y: 0.26330626, z: 0}
+--- !u!114 &-5549311855555605501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4914032092275200630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af40e840bb73b462e8b9c473b6bf476a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 2
+  allowPitch: 1
+  rotateAroundVisualCenter: 1
+  snapToFacesOnRelease: 1
+  snapSpeed: 6
 --- !u!1 &9091775224155101633
 GameObject:
   m_ObjectHideFlags: 0

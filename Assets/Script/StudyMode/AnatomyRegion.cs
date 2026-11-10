@@ -10,6 +10,8 @@ public abstract class AnatomyRegion : MonoBehaviour
     [TextArea] public string description;
     [Header("Filter")]
     public AnatomyStructureType structureType;
+    [Tooltip("Views this region appears in. Untagged regions never show.")]
+    public ToothView visibleInViews = ToothView.None;
 
     public bool FilterEnabled { get; private set; } = true;
     public bool IsHovered => hoverSources.Count > 0;
@@ -41,7 +43,7 @@ public abstract class AnatomyRegion : MonoBehaviour
     {
         Initialize();
         AnatomyHotspotManager manager = GetManager();
-        SetInteractableByFilter(manager == null || manager.IsTypeEnabled(structureType));
+        SetInteractableByFilter(manager == null || manager.IsRegionEnabled(this));
         manager?.ApplyRegionPresentation(this);
     }
 
@@ -126,11 +128,12 @@ public abstract class AnatomyRegion : MonoBehaviour
         return null;
     }
 
-    internal void SetFocusPresentation(AnatomyRegion focused, float unselectedOpacity)
+    internal void SetFocusPresentation(AnatomyRegion focused, float opacity, bool hintWhenIdle = false)
     {
-        Presentation next = focused == null ? Presentation.Normal :
-            focused == this ? Presentation.Focused : Presentation.Transparent;
-        float opacity = Mathf.Clamp01(unselectedOpacity);
+        Presentation next = focused == null
+            ? (hintWhenIdle ? Presentation.Transparent : Presentation.Normal)
+            : focused == this ? Presentation.Focused : Presentation.Transparent;
+        opacity = Mathf.Clamp01(opacity);
         if (presentation == next && Mathf.Approximately(backgroundOpacity, opacity)) return;
         Initialize();
         presentation = next;

@@ -120,6 +120,12 @@ MonoBehaviour:
     localEulerAngles: {x: 0, y: 0, z: 0}
     localScale: {x: 0, y: 0, z: 0}
   spawnFirstOnStart: 0
+  toothSelectionRoot: {fileID: 0}
+  backToTeethButton: {fileID: 0}
+  toothDetailsPanel: {fileID: 0}
+  fitToSharedViewer: 1
+  toothViewSize: {x: 3.2, y: 2.1, z: 1.4}
+  toothViewCenter: {x: 0, y: -0.12, z: -0.1}
 --- !u!114 &4794181031578186356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,3 +146,8 @@ MonoBehaviour:
   showRidges: 1
   showFossae: 1
   showGrooves: 1
+  unselectedOpacity: 0.2
+  hintOpacity: 0.35
+  closeCardActions:
+  - {fileID: -6395602842196007441, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  - {fileID: 3279264004350380116, guid: c348712bda248c246b8c49b3db54643f, type: 3}

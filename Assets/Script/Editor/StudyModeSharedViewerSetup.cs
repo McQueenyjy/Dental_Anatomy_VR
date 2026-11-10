@@ -81,7 +81,7 @@ public static class StudyModeSharedViewerSetup
             xrRaycaster.checkFor2DOcclusion = false;
             xrRaycaster.checkFor3DOcclusion = false;
 
-            TMP_Text existingTitle = menu.Find("Right Panel").GetComponent<AnatomyInfoPanel>().titleText;
+            TMP_Text existingTitle = menu.Find("Anatomy_Info_Panel").GetComponent<AnatomyInfoPanel>().titleText;
             TextMeshProUGUI heading = AddText("Viewer_Title", canvasRect, existingTitle.font, "Study Mode", 48);
             heading.color = existingTitle.color;
             heading.fontStyle = FontStyles.Bold;

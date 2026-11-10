@@ -20,8 +20,62 @@ public class AnatomyHotspotManager : MonoBehaviour
     [Tooltip("Opacity of other visible anatomy regions while one region is highlighted. 0 is invisible; 1 is opaque.")]
     [Range(0.05f, 1f)] public float unselectedOpacity = 0.2f;
 
+    [Header("Views")]
+    [Tooltip("Opacity of pointable regions while nothing is being pointed at.")]
+    [Range(0.05f, 1f)] public float hintOpacity = 0.35f;
+
+    [Header("Info Card")]
+    [Tooltip("Buttons that close a pinned info card when pressed anywhere, e.g. both hands' UI Press.")]
+    public InputActionReference[] closeCardActions;
+
+    private bool closedByPress;
+    private int ignoreClicksUntilFrame = -1;
+
+    private ToothView currentView = ToothView.None;
+    public ToothView CurrentView => currentView;
+
     private readonly List<AnatomyRegion> hoveredRegions = new List<AnatomyRegion>();
     private AnatomyRegion currentRegion;
+    public AnatomyRegion CurrentRegion => currentRegion;
+
+    public AnatomyRegion SelectedRegion { get; private set; }
+    private Vector3 selectedLocalPoint;
+
+    // Where the selected region was clicked, following the tooth as it rotates.
+    public Vector3 SelectedWorldPoint =>
+        SelectedRegion != null ? SelectedRegion.transform.TransformPoint(selectedLocalPoint) : Vector3.zero;
+
+    public void ToggleSelectedRegion(AnatomyRegion region, Vector3 worldPoint)
+    {
+        if (closedByPress && Time.frameCount <= ignoreClicksUntilFrame) return;
+        if (region == null || region == SelectedRegion)
+        {
+            SelectedRegion = null;
+            return;
+        }
+        SelectedRegion = region;
+        selectedLocalPoint = region.transform.InverseTransformPoint(worldPoint);
+    }
+
+    // Any trigger press closes a pinned card...
+    private void OnCloseCardPressed(InputAction.CallbackContext context)
+    {
+        if (SelectedRegion == null) return;
+        SelectedRegion = null;
+        closedByPress = true;
+        ignoreClicksUntilFrame = int.MaxValue;   // until the trigger is released
+    }
+
+    // ...and the click that finishes on release must not reopen one.
+    private void OnCloseCardReleased(InputAction.CallbackContext context)
+    {
+        if (closedByPress) ignoreClicksUntilFrame = Time.frameCount + 1;
+    }
+
+    private void Update()
+    {
+        if (closedByPress && Time.frameCount > ignoreClicksUntilFrame) closedByPress = false;
+    }
 
     private void Awake() => FindInfoPanel();
 
@@ -32,6 +86,13 @@ public class AnatomyHotspotManager : MonoBehaviour
         {
             showInfoAction.action.Enable();
             showInfoAction.action.performed += OnShowInfoPressed;
+        }
+        foreach (InputActionReference reference in closeCardActions ?? new InputActionReference[0])
+        {
+            if (reference == null || reference.action == null) continue;
+            reference.action.performed += OnCloseCardPressed;
+            reference.action.canceled += OnCloseCardReleased;
+            reference.action.Enable();
         }
     }
 
@@ -55,6 +116,12 @@ public class AnatomyHotspotManager : MonoBehaviour
 
     private void OnDisable()
     {
+        foreach (InputActionReference reference in closeCardActions ?? new InputActionReference[0])
+        {
+            if (reference == null || reference.action == null) continue;
+            reference.action.performed -= OnCloseCardPressed;
+            reference.action.canceled -= OnCloseCardReleased;
+        }
         if (showInfoAction != null && showInfoAction.action != null)
             showInfoAction.action.performed -= OnShowInfoPressed;
         ClearSelection();
@@ -80,13 +147,26 @@ public class AnatomyHotspotManager : MonoBehaviour
         }
     }
 
+    public bool IsRegionEnabled(AnatomyRegion region)
+    {
+        return IsTypeEnabled(region.structureType) && (region.visibleInViews & currentView) != 0;
+    }
+
+    public void SetCurrentView(ToothView view)
+    {
+        if (view == currentView) return;
+        currentView = view;
+        ApplyStructureFilters();
+    }
+
     public void ApplyStructureFilters()
     {
         foreach (AnatomyRegion region in FindObjectsOfType<AnatomyRegion>(true))
         {
             if (region.gameObject.scene == gameObject.scene)
-                region.SetInteractableByFilter(IsTypeEnabled(region.structureType));
+                region.SetInteractableByFilter(IsRegionEnabled(region));
         }
+        if (SelectedRegion != null && !IsRegionEnabled(SelectedRegion)) SelectedRegion = null;
         RefreshInfo();
     }
 
@@ -108,6 +188,7 @@ public class AnatomyHotspotManager : MonoBehaviour
 
     public void ClearSelection()
     {
+        SelectedRegion = null;
         hoveredRegions.Clear();
         RefreshInfo();
     }
@@ -131,7 +212,9 @@ public class AnatomyHotspotManager : MonoBehaviour
 
     internal void ApplyRegionPresentation(AnatomyRegion region)
     {
-        region.SetFocusPresentation(isActiveAndEnabled ? currentRegion : null, unselectedOpacity);
+        AnatomyRegion focused = isActiveAndEnabled ? currentRegion : null;
+        float opacity = focused == null ? hintOpacity : unselectedOpacity;
+        region.SetFocusPresentation(focused, opacity, true);
     }
 
     private void OnShowInfoPressed(InputAction.CallbackContext context) => RefreshInfo();
