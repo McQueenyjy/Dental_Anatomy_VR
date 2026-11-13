@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StudyMode_AR.unity
     guid: 70f147ed769db3048933d265b1af9467
+  - enabled: 1
+    path: Assets/Scenes/TeachingScene.unity
+    guid: 97d8177d579f3044c88ed413bfb07abf
   m_configObjects:
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 23f7bbd6ef1dd7a449a73fd23db7ca51,
       type: 2}

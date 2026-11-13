@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
 public class InGameMenuController : MonoBehaviour
 {
@@ -8,8 +10,10 @@ public class InGameMenuController : MonoBehaviour
     public PuzzleGameManager puzzleManager;   // ³¡¾°ÀïµÄPuzzleGameManager
     public Transform xrCamera;                // XR Origin/Main Camera
 
-    [Header("Toggle Input (recommended: A or X)")]
+    [Header("Toggle Input")]
     public InputActionReference toggleMenuAction;
+    public InputActionReference secondaryToggleMenuAction;
+    [SerializeField] private InputActionManager inputManager = null;
 
     [Header("Placement")]
     public float distance = 1.0f;
@@ -19,24 +23,31 @@ public class InGameMenuController : MonoBehaviour
 
     private void OnEnable()
     {
-        if (toggleMenuAction != null)
-        {
-            toggleMenuAction.action.performed += OnTogglePerformed;
-            toggleMenuAction.action.Enable();
-        }
+        SetMenuListener(toggleMenuAction, true);
+        SetMenuListener(secondaryToggleMenuAction, true);
     }
 
     private void OnDisable()
     {
-        if (toggleMenuAction != null)
-        {
-            toggleMenuAction.action.performed -= OnTogglePerformed;
-            toggleMenuAction.action.Disable();
-        }
+        SetMenuListener(toggleMenuAction, false);
+        SetMenuListener(secondaryToggleMenuAction, false);
+    }
+
+    private void SetMenuListener(InputActionReference reference, bool subscribe)
+    {
+        InputAction action = reference != null ? reference.action : null;
+        if (action == null) return;
+
+        if (subscribe) action.performed += OnTogglePerformed;
+        else action.performed -= OnTogglePerformed;
     }
 
     private void Start()
     {
+        // Re-enable the shared XR actions after the outgoing scene has shut down.
+        if (inputManager != null) inputManager.EnableInput();
+        toggleMenuAction?.action?.Enable();
+        secondaryToggleMenuAction?.action?.Enable();
         SetOpen(false);
     }
 
@@ -92,8 +103,8 @@ public class InGameMenuController : MonoBehaviour
         SetOpen(false);
     }
 
-    public void OnQuitClicked()
+    public void OnBackToMainMenuClicked()
     {
-        Application.Quit();
+        SceneManager.LoadScene("MainMenu");
     }
 }

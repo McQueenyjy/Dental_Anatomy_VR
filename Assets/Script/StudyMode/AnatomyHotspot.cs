@@ -1,54 +1,49 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.EventSystems;
 
-public class AnatomyHotspot : AnatomyRegion
+// One anatomy region on a tooth. Hover comes from UI pointer events,
+// so the region's collider can also be used to grab the whole tooth.
+public class AnatomyHotspot : AnatomyRegion, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [Header("Highlight")]
     public GameObject highlightObject;
     [Header("References")]
     public AnatomyHotspotManager hotspotManager;
-    private XRBaseInteractable interactable;
+
+    private readonly HashSet<int> pointers = new HashSet<int>();
 
     protected override IEnumerable<GameObject> GetHighlights()
     {
         yield return highlightObject;
     }
 
+    // Some regions keep their collider on the Highlight child, so include children.
     protected override IEnumerable<Collider> GetHitColliders()
     {
-        interactable = GetComponent<XRBaseInteractable>();
-        if (interactable != null && interactable.colliders.Count > 0)
-            return interactable.colliders;
-        return GetComponents<Collider>();
-    }
-
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        if (interactable == null) interactable = GetComponent<XRBaseInteractable>();
-        if (interactable == null) return;
-        interactable.hoverEntered.AddListener(OnHoverEntered);
-        interactable.hoverExited.AddListener(OnHoverExited);
+        return GetComponentsInChildren<Collider>(true);
     }
 
     protected override void OnDisable()
     {
-        if (interactable != null)
-        {
-            interactable.hoverEntered.RemoveListener(OnHoverEntered);
-            interactable.hoverExited.RemoveListener(OnHoverExited);
-        }
+        pointers.Clear();
         base.OnDisable();
     }
 
-    private void OnHoverEntered(HoverEnterEventArgs args)
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        if (args.interactorObject is XRRayInteractor ray) EnterHover(ray);
+        if (pointers.Add(eventData.pointerId) && pointers.Count == 1) EnterHover(this);
     }
 
-    private void OnHoverExited(HoverExitEventArgs args)
+    public void OnPointerExit(PointerEventData eventData)
     {
-        if (args.interactorObject is XRRayInteractor ray) ExitHover(ray);
+        if (pointers.Remove(eventData.pointerId) && pointers.Count == 0) ExitHover(this);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        AnatomyHotspotManager manager = GetManager();
+        if (manager != null)
+            manager.ToggleSelectedRegion(this, eventData.pointerCurrentRaycast.worldPosition);
     }
 }

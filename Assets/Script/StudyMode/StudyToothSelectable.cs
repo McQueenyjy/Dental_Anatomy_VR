@@ -1,81 +1,42 @@
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.EventSystems;
 
-public class StudyToothSelectable : MonoBehaviour
+// Hover highlight and trigger-click selection for a tooth on the arch.
+// Uses UI pointer events, so the tooth's collider can also be used
+// by the arch's XR Grab Interactable for grabbing.
+public class StudyToothSelectable : MonoBehaviour,
+    IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public StudyModeManager manager;
     public string toothId;
     public Behaviour outline;
 
-    private XRBaseInteractable interactable;
-
     private void Awake()
     {
-        interactable = GetComponent<XRBaseInteractable>();
-
         if (manager == null)
-        {
             manager = FindObjectOfType<StudyModeManager>();
-        }
-
         SetOutline(false);
-    }
-
-    private void OnEnable()
-    {
-        if (interactable == null)
-        {
-            interactable = GetComponent<XRBaseInteractable>();
-        }
-
-        if (interactable != null)
-        {
-            interactable.hoverEntered.AddListener(OnHoverEntered);
-            interactable.hoverExited.AddListener(OnHoverExited);
-            interactable.selectEntered.AddListener(OnSelected);
-        }
     }
 
     private void OnDisable()
     {
-        // Hiding the whole arch can happen before hoverExited is delivered.
-        SetOutline(false);
-        if (interactable != null)
-        {
-            interactable.hoverEntered.RemoveListener(OnHoverEntered);
-            interactable.hoverExited.RemoveListener(OnHoverExited);
-            interactable.selectEntered.RemoveListener(OnSelected);
-        }
-    }
-
-    private void OnHoverEntered(HoverEnterEventArgs args)
-    {
-        SetOutline(true);
-    }
-
-    private void OnHoverExited(HoverExitEventArgs args)
-    {
+        // Hiding the arch can happen before the pointer exit event arrives.
         SetOutline(false);
     }
 
-    private void OnSelected(SelectEnterEventArgs args)
-    {
-        Select();
-    }
+    public void OnPointerEnter(PointerEventData eventData) => SetOutline(true);
+    public void OnPointerExit(PointerEventData eventData) => SetOutline(false);
+    public void OnPointerClick(PointerEventData eventData) => Select();
 
     public void Select()
     {
         if (manager != null)
-        {
             manager.SelectTooth(toothId);
-        }
     }
 
     private void SetOutline(bool visible)
     {
         if (outline != null)
-        {
             outline.enabled = visible;
-        }
     }
 }
